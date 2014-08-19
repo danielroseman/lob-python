@@ -44,7 +44,7 @@ class APIRequestor(object):
                     explodedParams[k] = v
 
             for k,v in explodedParams.iteritems():
-                if isinstance(v, file):
+                if hasattr(v, 'read'):
                     files[k] = v
                 else:
                     if isinstance(v, resource.LobObject):
