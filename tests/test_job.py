@@ -1,3 +1,4 @@
+import StringIO
 import unittest
 import lob
 # Setting the API key
@@ -99,6 +100,20 @@ class JobFunctions(unittest.TestCase):
             objects = {
                 'name': 'Test Job',
                 'file': open('tests/pc.pdf', 'rb'),
+                'setting_id': 201
+            }
+        )
+        self.assertEqual(job.objects[0].name, 'Test Job')
+        self.assertTrue(isinstance(job, lob.Job))
+
+    def test_create_job_file_like_object(self):
+        file_obj =  StringIO.StringIO(open('tests/pc.pdf', 'rb').read())
+        job = lob.Job.create(
+            to_address = self.addr.id,
+            from_address = self.addr.id,
+            objects = {
+                'name': 'Test Job',
+                'file': file_obj,
                 'setting_id': 201
             }
         )

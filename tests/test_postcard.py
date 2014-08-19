@@ -1,3 +1,4 @@
+import StringIO
 import unittest
 import lob
 # Setting the API key
@@ -75,6 +76,17 @@ class PostcardFunctions(unittest.TestCase):
             from_address = self.addr.id,
             front = open('tests/pc.pdf', 'rb'),
             back = open('tests/pc.pdf', 'rb')
+        )
+        self.assertTrue(isinstance(postcard, lob.Postcard))
+
+    def test_create_postcard_file_like_object(self):
+        front_obj = StringIO.StringIO(open('tests/pc.pdf', 'rb').read())
+        back_obj = StringIO.StringIO(open('tests/pc.pdf', 'rb').read())
+        postcard = lob.Postcard.create(
+            to_address = self.addr.id,
+            from_address = self.addr.id,
+            front = front_obj,
+            back = back_obj
         )
         self.assertTrue(isinstance(postcard, lob.Postcard))
 
